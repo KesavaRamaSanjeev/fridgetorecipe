@@ -1,0 +1,687 @@
+.fullscreenOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #060913; /* Deep obsidian background matching mockup */
+  color: #f1f5f9;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.header {
+  padding: 16px 28px;
+  background-color: rgba(15, 23, 42, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoCircle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: rgba(22, 197, 94, 0.1);
+  border: 1px solid rgba(22, 197, 94, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.recipeTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.01em;
+}
+
+.stepIndicatorHeader {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.exitBtn {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.exitBtn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+/* CONTENT VIEWPORT SPLIT */
+.content {
+  flex-grow: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Left Column Sidebar */
+.leftColumn {
+  width: 320px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px;
+  overflow-y: auto;
+  gap: 20px;
+}
+
+.sidebarTitle {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.stepsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.stepCard:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.stepCardActive {
+  background-color: rgba(34, 197, 94, 0.03);
+  border-color: #16a34a; /* Green boundary active state */
+}
+
+.numberBadge {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.numberBadgeActive {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+.stepCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.stepCardText {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stepCardActive .stepCardText {
+  color: white;
+  font-weight: 600;
+}
+
+.stepCardMeta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.activeIndicatorDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #16a34a;
+  box-shadow: 0 0 6px #16a34a;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Overall Progress Card */
+.progressCard {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progressCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progressTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+
+.progressPct {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.progressBarWrapper {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: #16a34a;
+  transition: width 0.3s ease;
+}
+
+/* Keyboard Shortcuts Card */
+.shortcutsCard {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shortcutsTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shortcutRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+}
+
+.shortcutKey {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.shortcutDesc {
+  color: var(--text-secondary);
+}
+
+/* Right Column Focus View */
+.rightColumn {
+  flex-grow: 1;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  background: radial-gradient(circle at center, rgba(22, 163, 74, 0.03) 0%, transparent 75%);
+}
+
+.focusContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  width: 100%;
+  max-width: 960px;
+  align-items: center;
+}
+
+.stepTextDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stepLabelBadge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #16a34a;
+  background-color: rgba(22, 163, 74, 0.1);
+  padding: 4px 10px;
+  border-radius: 4px;
+  width: fit-content;
+  letter-spacing: 0.05em;
+}
+
+.stepHeaderMain {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.stepDescParagraph {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Chef's Tip Card */
+.tipCard {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(234, 179, 8, 0.05);
+  border: 1px solid rgba(234, 179, 8, 0.15);
+}
+
+.tipIconBadge {
+  color: #eab308;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tipCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tipTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #eab308;
+}
+
+.tipText {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* Step Timer Box */
+.timerCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 14px 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.timerInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timerIconGreen {
+  color: #16a34a;
+}
+
+.timerLabelSmall {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  display: block;
+}
+
+.timerValBig {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: white;
+  line-height: 1;
+}
+
+.timerControlsRow {
+  display: flex;
+  gap: 8px;
+}
+
+.timerPlayBtn {
+  background-color: rgba(22, 163, 74, 0.15);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  color: #16a34a;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.timerPlayBtn:hover {
+  background-color: #16a34a;
+  color: white;
+}
+
+.timerResetBtn {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.timerResetBtn:hover {
+  background-color: var(--border-color);
+  color: white;
+}
+
+/* Frying Pan Graphic Card */
+.graphicCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+  padding: 40px;
+  height: 300px;
+  position: relative;
+}
+
+.panGraphicWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.stoveBurnerFlames {
+  display: flex;
+  gap: 14px;
+  position: absolute;
+  bottom: -15px;
+  z-index: 1;
+}
+
+.burnerFlame {
+  width: 10px;
+  height: 18px;
+  background-color: #3b82f6; /* Gas blue flame */
+  border-radius: 50% 50% 20% 20%;
+  filter: blur(1px);
+  animation: flickerFlame 0.8s infinite ease-in-out alternate;
+  box-shadow: 0 0 10px #3b82f6;
+}
+
+.burnerFlame:nth-child(even) {
+  animation-delay: 0.2s;
+  height: 14px;
+}
+
+@keyframes flickerFlame {
+  0% { transform: scaleY(0.85) rotate(-2deg); opacity: 0.7; }
+  100% { transform: scaleY(1.15) rotate(2deg); opacity: 1; }
+}
+
+.skilletPanBody {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2a313d 0%, #11151c 85%);
+  border: 10px solid #1f242e;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.05);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skilletNoodleCurls {
+  width: 140px;
+  height: 140px;
+  position: relative;
+}
+
+.meltingButterPat {
+  width: 32px;
+  height: 32px;
+  background-color: #fde047; /* Yellow butter */
+  border-radius: 6px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  box-shadow: 0 0 15px rgba(253, 224, 71, 0.4);
+  transform: rotate(15deg);
+  animation: meltButter 4s infinite linear;
+}
+
+@keyframes meltButter {
+  0% { transform: scale(1) rotate(15deg); border-radius: 6px; }
+  50% { transform: scale(0.8) rotate(20deg); border-radius: 12px; }
+  100% { transform: scale(0.65) rotate(25deg); border-radius: 20px; }
+}
+
+.oilBubble1, .oilBubble2 {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid rgba(253, 224, 71, 0.25);
+  animation: floatBubble 2.5s infinite linear;
+}
+
+.oilBubble1 {
+  width: 10px;
+  height: 10px;
+  top: 40px;
+  left: 45px;
+}
+
+.oilBubble2 {
+  width: 7px;
+  height: 7px;
+  top: 90px;
+  left: 80px;
+  animation-delay: 1.2s;
+}
+
+@keyframes floatBubble {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { transform: translate(10px, -15px) scale(1.2); opacity: 0; }
+}
+
+.skilletPanHandle {
+  width: 120px;
+  height: 14px;
+  background-color: #11151c;
+  border-radius: 0 6px 6px 0;
+  position: absolute;
+  left: 175px;
+  top: 83px;
+  transform: rotate(20deg);
+  border: 2px solid #1f242e;
+}
+
+/* BOTTOM NAVIGATION */
+.footer {
+  padding: 16px 32px;
+  background-color: rgba(15, 23, 42, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prevBtn {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+}
+
+.prevBtn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.prevBtn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.nextBtn {
+  background-color: #16a34a;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+}
+
+.nextBtn:hover {
+  background-color: #15803d;
+  box-shadow: 0 4px 15px rgba(22, 163, 74, 0.25);
+}
+
+/* Stepper dots connected with lines */
+.stepperDotsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepperDot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #060913;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+
+.stepperDotActive {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.stepperDotCompleted {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+.stepperLine {
+  width: 40px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.stepperLineCompleted {
+  background-color: #16a34a;
+}
+
+@media (max-width: 900px) {
+  .focusContainer {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .leftColumn {
+    display: none; /* Hide steps sidebar on mobile */
+  }
+  .stepperLine {
+    width: 20px;
+  }
+}
